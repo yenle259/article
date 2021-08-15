@@ -1,11 +1,16 @@
 import React from 'react'
 
-function PostItem() {
+function PostItem({id,author_name,author_avatar,title,content,picture}) {
     return (
         <div className="post_wrapper">
-            <img className="postitem_image" src="http://placeimg.com/640/480/food" alt=""/>
-            <h3 className="postitem_title">Incredible Rubber Sausages</h3>
-            <p>The Football Is Good For Training And Recreational Purposes</p>
+            <img className="postitem_image" src={picture} alt=""/>
+            
+            <h3 className="postitem_title">{title}</h3>
+            <p>{content}</p>
+            <div className="author">
+                <img className="author_ava" src={author_avatar} alt=""/>  
+                <h4><i>write by </i> {author_name}</h4>
+            </div>
             
         </div>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
 import {useEffect,useState} from "react";
-function postContent() {
+function PostContent() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
@@ -20,4 +20,4 @@ function postContent() {
     return [data,loading,success,error];
 }
 
-export default postContent
+export default PostContent
