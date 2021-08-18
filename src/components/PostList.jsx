@@ -13,9 +13,9 @@ function PostList() {
 
     return (
         <div className="post_list">
-            {loading && <em>I'm loading, please wait...</em>}
+            {loading && <em>Loading, please wait a minute...</em>}
             {failed && <em>Fetch data failed</em>}
-            {success && !hasData && <em>No data to post :))</em>}
+            {success && !hasData && <em>No data to post</em>}
             {success && hasData && renderPosts()}
         </div>
     )

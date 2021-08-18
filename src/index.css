@@ -17,15 +17,23 @@ code {
   margin:0px;
   padding: 0px;
 }
+h2{
+  font-size: 30px;
+  background:#14213D;
+}
 .nav-bar{
   font-family: 'Oswald', sans-serif;
   text-align: center;
-  color: blueviolet;
+  color:#FCA311;
   height: 100px;
   line-height: 100px;
-  border:1px solid black;
+  border-bottom:  solid black;
+  width: 95vw;
+  margin:auto;
 }
-
+.inside{
+  margin:auto;
+}
 .post_wrapper{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
   display: flex;
@@ -36,6 +44,7 @@ code {
   justify-content: flex-start;
   background-color:white;
 }
+
 h3{
   padding: 5px 20px 5px 0px;
   text-indent: 15px;
@@ -47,9 +56,9 @@ h3{
   font-family: 'Oswald', sans-serif;
 }
 p{
-  border-left: 5px solid #7D8391;
+  border-left: 5px solid #14213D;
   padding: 10px 20px 15px 20px;
-  height: auto;
+  height: 75px;
   font-size: 15px;
 }
 .author{
@@ -57,7 +66,7 @@ p{
   justify-content: flex-start;
   align-items: center;
   height: 35px;
-  border-left: 5px solid #14213D;
+  border-left: 5px solid  white;
 }
 .author_ava{
   margin-left: 15px;
