@@ -1,13 +1,13 @@
 import React from 'react'
-import PostContent from '../hooks/PostContent';
+import useContent from '../hooks/useContent';
 import PostItem from './PostItem'
 function PostList() {
-    const [posts,loading,success,failed] =PostContent();
+    const [posts,loading,success,failed] =useContent();
     const hasData = posts != null && posts.length>0;
 
     const renderPosts=()=>{
         return posts.map(({id,author_name,author_avatar,title,content,picture}) =>(
-            <PostItem key ={id} title={title} content={content} picture={picture} author_avatar={author_avatar} author_name={author_name}/>
+            <PostItem key ={id} id={id} title={title} content={content} picture={picture} author_avatar={author_avatar} author_name={author_name}/>
         ))
     }
 
