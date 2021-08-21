@@ -1,7 +1,9 @@
+import userEvent from "@testing-library/user-event";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useContentById from "../hooks/useContentById";
 import useContentCreate from "../hooks/useContentCreate";
+import useContentDelete from "../hooks/useContentDelete";
 import useContentUpdate from "../hooks/useContentUpdate";
 
 function PostForm() {
@@ -11,8 +13,13 @@ function PostForm() {
   const [formData, setFormData] = useState({});
   const [createPost, { loading:cLoading, success:cSuccess, error:cError }] = useContentCreate();
   const [updatePost,{loading:uLoading,success:uSuccess,error:uError}] = useContentUpdate();
+
+  const [deletePost,{loading:dLoading,success:dSuccess,error:dError}] = useContentDelete();
+
   const isUpdate = !!id;
   const isReady = !isUpdate || (postDataSuccess && postData);
+  const isDelete = isUpdate && postDataSuccess && postData;
+
   const handleChange = (field) => (event) => {
     setFormData((prev) => ({
       ...prev,
@@ -41,11 +48,11 @@ function PostForm() {
   }, [id])
 
   useEffect(() => {
-    if(!isReady && !isUpdate) return;
+    if(!isReady || !isUpdate) return;
     const {title, picture,content,author_name, author_avatar} = postData || {};
     setFormData({title,picture,content,author_name,author_avatar});
   }, [isReady])
- 
+
   return (
     <div>
       {cLoading && <em>Creating new post, please wait a min...</em>}
@@ -55,6 +62,10 @@ function PostForm() {
       {uLoading && <em>Updating post...</em>}
       {uError && <em>Cannot update post, please try again</em>}
       {uSuccess && <em>Updated successfully.</em>}
+
+      {dLoading && <em>Deleting...</em>}
+      {dError && <em>Delete error, try again</em>}
+      {dSuccess && <em>Deleted Successfully</em>}
 
       {!isReady && postDataLoading && <em>Data loading...</em>}
       {!isReady && postDataError && <em>Error, Cannot access to data</em>}
