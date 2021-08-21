@@ -6,7 +6,9 @@ function PostItem({id,author_name,author_avatar,title,content,picture}) {
         <Link to={`/post/${id}`}>
             <div className="inside">
                 <div className="post_wrapper">
-                    <img className="postitem_image" src={picture} alt=""/>
+                    <img className="postitem_image" 
+                    src={picture} alt=""
+                    />
                 
                     <h3 className="postitem_title">{title}</h3>
                     <p>{content}</p>
