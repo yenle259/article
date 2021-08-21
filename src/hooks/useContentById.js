@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-function useContentId(id) {
+function useContentById(id) {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [data, setData] = useState();
 
     useEffect(() =>{
+        if(!id) return ;
         setLoading(true);
         fetch(`https://61176b1c30022f0017a05dfa.mockapi.io/api/v1/articles/${id}`)
             .then(res=>res.json())
@@ -21,4 +22,4 @@ function useContentId(id) {
 
 }
 
-export default useContentId
+export default useContentById

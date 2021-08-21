@@ -1,21 +1,18 @@
 import React, { useState } from 'react'
 
-function useContentUpdate() {
-        const [loading, setLoading] = useState(false);
+function useContentCreate() {
+    const [loading, setLoading] = useState(false);
         const [success, setSuccess] = useState(false);
         const [error, setError] = useState(false);
         const [result, setResult] = useState();
     
-        const update=(id,newPost) => {
+        const create=(newPost) => {
             setLoading(true);
-            fetch(`https://61176b1c30022f0017a05dfa.mockapi.io/api/v1/articles/${id}`,
-                {method:'put',
+            fetch('https://61176b1c30022f0017a05dfa.mockapi.io/api/v1/articles/',
+                {method:'post',
                 body:JSON.stringify(newPost),
             })
-                .then((res) => {
-                    if(res.ok) return res.json();
-                    throw new ErrorEvent('request failed');
-                })
+                .then(res=>res.json())
                 .then(json=>{
                     setResult(json);
                     setSuccess(true);
@@ -24,7 +21,7 @@ function useContentUpdate() {
                 .finally(()=>setLoading(false))
         };
     
-        return [update,{result,loading,success,error}];
+        return [create,{result,loading,success,error}];
 }
 
-export default useContentUpdate;
+export default useContentCreate
