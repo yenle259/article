@@ -1,14 +1,17 @@
-import React from 'react'
+import useAxios from 'axios-hooks';
+import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import useContentId from '../hooks/useContentById';
 import useContentDelete from '../hooks/useContentDelete';
 import NavBar from './NavBar';
 
 function PostDetail() {
     const {id} = useParams();
-    const [data,loading, success, failed] = useContentId(id);
-    const hasData = data!=null;
-    const  [deletePost,{loading:deLoading,success:deSuccess,error:deError}] = useContentDelete();
+    const [{ data, loading, error:failed}] = useAxios(
+        `articles/${id}`
+      );
+    const hasData = data!= null;
+    const success = !loading && !failed;
+    const [deletePost,{loading:dLoading,success:dSuccess,error:dError}] = useContentDelete();
     const renderPostById=() =>{
         const {createdAt,author_name,author_avatar,title,content,picture} = data;
         return (
@@ -26,7 +29,7 @@ function PostDetail() {
     return (
         <>
             <Link to={`/update/${id}`}>Update Post Content<br/></Link>
-            <button onClick={deletePost}>Delete this post</button>
+            <button onClick={()=>deletePost(id)}>Delete this post</button>
             {loading && <em>Access to post content, please wait...</em>}
             {failed && <em>Fetch data failed</em>}
             {success && !hasData && <em>No data to post</em>}
