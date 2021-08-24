@@ -1,24 +1,37 @@
-import userEvent from "@testing-library/user-event";
+
+import useAxios from "axios-hooks";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useContentById from "../hooks/useContentById";
-import useContentCreate from "../hooks/useContentCreate";
-import useContentDelete from "../hooks/useContentDelete";
-import useContentUpdate from "../hooks/useContentUpdate";
 
 function PostForm() {
   const {id} = useParams();
-  const [postData, postDataLoading, postDataSuccess, postDataError] = useContentById(id);
-  
+  const [{ data:postData, loading:postDataLoading , error:postDataError}] = useAxios(
+        `articles/${id}`
+    );
+  const postDataSuccess = !postDataLoading && !postDataError;
   const [formData, setFormData] = useState({});
-  const [createPost, { loading:cLoading, success:cSuccess, error:cError }] = useContentCreate();
-  const [updatePost,{loading:uLoading,success:uSuccess,error:uError}] = useContentUpdate();
 
-  const [deletePost,{loading:dLoading,success:dSuccess,error:dError}] = useContentDelete();
+
+  const [{ loading: cLoading, error: cError,response:cResponse}, createPost] = useAxios(
+    {
+      url: `articles`,
+      method: "POST",
+    },
+    { manual: true }
+  );
+  const cSuccess = cResponse && cResponse.status === 201;
+
+  const [{ loading: uLoading, error: uError,response:uResponse }, updatePost] = useAxios(
+    {
+      url: `articles/${id}`,
+      method: "PUT",
+    },
+    { manual: true }
+  );
+  const uSuccess = uResponse && uResponse.status ===200;
 
   const isUpdate = !!id;
   const isReady = !isUpdate || (postDataSuccess && postData);
-  const isDelete = isUpdate && postDataSuccess && postData;
 
   const handleChange = (field) => (event) => {
     setFormData((prev) => ({
@@ -30,14 +43,14 @@ function PostForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if(isUpdate){
-      updatePost(id,formData);
+      updatePost({data:formData});
     }else{
-      createPost(formData);
+      createPost({data:formData});
     }
   };
 
   useEffect(() => {
-    if (cSuccess !=true) return;
+    if (cSuccess !==true) return;
     setFormData({});
   }, [cSuccess]);
 
@@ -53,6 +66,8 @@ function PostForm() {
     setFormData({title,picture,content,author_name,author_avatar});
   }, [isReady])
 
+
+  
   return (
     <div>
       {cLoading && <em>Creating new post, please wait a min...</em>}
@@ -62,10 +77,6 @@ function PostForm() {
       {uLoading && <em>Updating post...</em>}
       {uError && <em>Cannot update post, please try again</em>}
       {uSuccess && <em>Updated successfully.</em>}
-
-      {dLoading && <em>Deleting...</em>}
-      {dError && <em>Delete error, try again</em>}
-      {dSuccess && <em>Deleted Successfully</em>}
 
       {!isReady && postDataLoading && <em>Data loading...</em>}
       {!isReady && postDataError && <em>Error, Cannot access to data</em>}
@@ -128,7 +139,7 @@ function PostForm() {
               id="post_authoravatar"
             />
           </div>
-          <button disabled={uLoading} type="submit">SUBMIT</button>
+          <button className="submit-btn" disabled={uLoading} type="submit">SUBMIT</button>
         </form>
       )}
     </div>
